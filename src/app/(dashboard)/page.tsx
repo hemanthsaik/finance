@@ -1,6 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { UserButton } from "@clerk/nextjs";
+"use client";
+
+import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 
 export default function Dashboard() {
-  return <div>{/* <UserButton /> */}</div>;
+  const { data: accounts, isLoading } = useGetAccounts();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      {accounts?.map((account) => (
+        <div key={account.id}>{account.name}</div>
+      ))}
+    </div>
+  );
 }
